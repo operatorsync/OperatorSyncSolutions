@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 
     // Email content
     const mailOptions = {
-      from: "PromoReach" <${process.env.GMAIL_USER}>,
+      from: `PromoReach <${process.env.GMAIL_USER}>`, // Fixed template syntax
       to: process.env.GMAIL_USER, // You can replace with another inbox or list
       subject: '🚀 New PromoReach Lead!',
       html: `
