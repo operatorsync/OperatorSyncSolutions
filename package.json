@@ -1,7 +1,8 @@
 {
   "name": "promoreach-api",
   "version": "1.0.0",
-  "dependencies":{
-  "nodemailer":"^6.9.3"
-}
+  "type": "module",  // Add this line
+  "dependencies": {
+    "nodemailer": "^6.9.3"
+  }
 }
