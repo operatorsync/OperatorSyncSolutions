@@ -1,29 +1,4 @@
-Thanks for providing the content of `landingpage.html` from the `Promo` folder. I understand you want to delete `landingpage.html` completely and move its functionality into `index.html`. Since `landingpage.html` introduces "PromoReach," a personalized email marketing tool with a React-based form, I’ll integrate this as a new section in `index.html`, adapting its styling to match the existing design system (e.g., using the `Inter` font, color variables like `--primary` and `--secondary`, and the grid layout). I’ll also remove the dependency on separate React scripts by simplifying the form to plain HTML/JavaScript, as the original `index.html` doesn’t use React, and embedding React might require a full build setup.
-
-### Step 1: Delete `landingpage.html`
-Remove the file from the `Promo` folder:
-1. Navigate to the `Promo` folder:
-   ```bash
-   cd Promo
-   ```
-2. Delete the file:
-   ```bash
-   rm landingpage.html
-   ```
-3. Commit and push the deletion:
-   ```bash
-   git add Promo/
-   git commit -m "Delete landingpage.html from Promo folder"
-   git push origin main
-   ```
-
-### Step 2: Integrate PromoReach into `index.html`
-I’ll add a new section after the hero section (`id="home"`) to include the PromoReach functionality. The form will use the existing CSS framework (e.g., `btn` class, `container` class) and a simple JavaScript fetch call to mimic the original `/api/send` endpoint (noting that the original URL might need adjustment based on your server setup).
-
-#### Modified `index.html` with PromoReach Section
-Here’s the updated `index.html` with the new "PromoReach" section:
-
-```html
+`html
 <!DOCTYPE html>
 <html lang="en">
 <head>
