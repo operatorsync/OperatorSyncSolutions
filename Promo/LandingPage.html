@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OperatorSyncSolutions - PromoReach Landing</title>
+  <meta name="description" content="Discover PromoReach by OperatorSyncSolutions. Your personalized email marketing tool with fast, free delivery." />
+  <meta property="og:title" content="PromoReach by OperatorSyncSolutions" />
+  <meta property="og:description" content="Try PromoReach, the powerful email marketing tool for local businesses." />
+  <style>
+    body {
+      margin: 0; font-family: Arial, sans-serif; background: #f5f7fa; color: #333;
+      display: flex; flex-direction: column; min-height: 100vh;
+    }
+    header {
+      background: #003366; color: #fff; padding: 1rem 2rem; text-align: center;
+    }
+    main {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;
+    }
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    .description {
+      max-width: 600px; text-align: center; margin-bottom: 2rem; font-size: 1.1rem; color: #555;
+    }
+    #root {
+      width: 100%; max-width: 400px;
+    }
+    footer {
+      background: #003366; color: #eee; padding: 1rem 2rem; text-align: center; font-size: 0.9rem;
+    }
+    a {
+      color: #80b3ff; text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OperatorSyncSolutions</h1>
+  </header>
+  <main>
+    <h2>Introducing PromoReach</h2>
+    <p class="description">
+      PromoReach is your personalized email marketing tool designed to help local businesses reach customers directly with fast, free delivery on every campaign.
+    </p>
+    <div id="root"></div>
+  </main>
+  <footer>
+    <a href="/promo/privacy.html">Privacy Policy</a> | 
+    <a href="/promo/terms.html">Terms of Service</a> | 
+    <a href="/promo/support.html">Support</a>
+  </footer>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function PromoReachForm() {
+      const [email, setEmail] = useState('');
+      const [status, setStatus] = useState(null);
+
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus('sending');
+
+        try {
+          const response = await fetch('/api/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+          });
+
+          if (response.ok) {
+            setStatus('success');
+            setEmail('');
+          } else {
+            setStatus('error');
+          }
+        } catch {
+          setStatus('error');
+        }
+      };
+
+      return (
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Enter your email to get started:</label><br />
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            required
+            style={{ width: '100%', padding: '0.5rem', margin: '0.5rem 0' }}
+            placeholder="your.email@example.com"
+          />
+          <button type="submit" style={{ padding: '0.5rem 1rem' }}>Subscribe</button>
+          <div style={{ marginTop: '1rem', minHeight: '1.2em' }}>
+            {status === 'sending' && 'Sending...'}
+            {status === 'success' && 'Thank you! Check your inbox.'}
+            {status === 'error' && 'Oops! Something went wrong.'}
+          </div>
+        </form>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<PromoReachForm />);
+  </script>
+</body>
+</html>
