@@ -1,3 +1,29 @@
+Thanks for providing the content of `landingpage.html` from the `Promo` folder. I understand you want to delete `landingpage.html` completely and move its functionality into `index.html`. Since `landingpage.html` introduces "PromoReach," a personalized email marketing tool with a React-based form, I’ll integrate this as a new section in `index.html`, adapting its styling to match the existing design system (e.g., using the `Inter` font, color variables like `--primary` and `--secondary`, and the grid layout). I’ll also remove the dependency on separate React scripts by simplifying the form to plain HTML/JavaScript, as the original `index.html` doesn’t use React, and embedding React might require a full build setup.
+
+### Step 1: Delete `landingpage.html`
+Remove the file from the `Promo` folder:
+1. Navigate to the `Promo` folder:
+   ```bash
+   cd Promo
+   ```
+2. Delete the file:
+   ```bash
+   rm landingpage.html
+   ```
+3. Commit and push the deletion:
+   ```bash
+   git add Promo/
+   git commit -m "Delete landingpage.html from Promo folder"
+   git push origin main
+   ```
+
+### Step 2: Integrate PromoReach into `index.html`
+I’ll add a new section after the hero section (`id="home"`) to include the PromoReach functionality. The form will use the existing CSS framework (e.g., `btn` class, `container` class) and a simple JavaScript fetch call to mimic the original `/api/send` endpoint (noting that the original URL might need adjustment based on your server setup).
+
+#### Modified `index.html` with PromoReach Section
+Here’s the updated `index.html` with the new "PromoReach" section:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -272,6 +298,71 @@
             flex-wrap: wrap;
         }
         
+        /* PromoReach Section */
+        .promoreach {
+            padding: 4rem 0;
+            background-color: var(--light);
+            text-align: center;
+        }
+        
+        .promoreach .description {
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+        
+        .promoreach-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .promoreach-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .promoreach-form input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .promoreach-form button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .promoreach-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+        }
+        
+        .promoreach-form .status {
+            margin-top: 1rem;
+            min-height: 1.2em;
+            color: var(--success);
+        }
+        
+        .promoreach-form .status.error {
+            color: #ef4444;
+        }
+        
         /* Features Grid */
         .features-grid {
             display: grid;
@@ -534,6 +625,7 @@
                 <li><a href="#for-operators">For Operators</a></li>
                 <li><a href="#testimonials">Success Stories</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a href="#promoreach">PromoReach</a></li> <!-- Added PromoReach link -->
             </ul>
             
             <div class="menu-toggle" id="menuToggle">
@@ -554,6 +646,29 @@
                     <a href="#contact" class="btn btn-primary">Explore Opportunities</a>
                     <a href="#how-it-works" class="btn btn-outline">Learn How It Works</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PromoReach Section -->
+    <section class="promoreach" id="promoreach">
+        <div class="container">
+            <h2 class="animate-fade">Introducing PromoReach</h2>
+            <p class="description animate-fade delay-1">
+                PromoReach is your personalized email marketing tool designed to help local businesses reach customers directly with fast, free delivery on every campaign.
+            </p>
+            <div class="promoreach-form animate-fade delay-2">
+                <form id="promoreachForm">
+                    <label for="promoreach-email">Enter your email to get started:</label>
+                    <input
+                        type="email"
+                        id="promoreach-email"
+                        required
+                        placeholder="your.email@example.com"
+                    />
+                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                    <div id="promoreach-status" class="status"></div>
+                </form>
             </div>
         </div>
     </section>
@@ -784,6 +899,7 @@
                 <a href="#for-operators">For Operators</a>
                 <a href="#testimonials">Success Stories</a>
                 <a href="#contact">Contact</a>
+                <a href="#promoreach">PromoReach</a> <!-- Added PromoReach link -->
                 <a href="/privacy">Privacy Policy</a>
                 <a href="/terms">Terms</a>
             </div>
@@ -856,6 +972,47 @@
                 } catch (error) {
                     console.error("Submission error:", error);
                     alert("Error: " + error.message);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            });
+        }
+        
+        // PromoReach Form Submission
+        const promoreachForm = document.getElementById('promoreachForm');
+        const promoreachStatus = document.getElementById('promoreach-status');
+        
+        if (promoreachForm) {
+            promoreachForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const email = document.getElementById('promoreach-email').value;
+                const originalText = submitBtn.textContent;
+                
+                try {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Sending...';
+                    promoreachStatus.textContent = 'Sending...';
+                    
+                    const response = await fetch('/api/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    if (response.ok) {
+                        promoreachStatus.textContent = 'Thank you! Check your inbox.';
+                        promoreachStatus.className = 'status';
+                        promoreachForm.reset();
+                    } else {
+                        throw new Error('Submission failed');
+                    }
+                } catch (error) {
+                    promoreachStatus.textContent = 'Oops! Something went wrong.';
+                    promoreachStatus.className = 'status error';
+                    console.error("Submission error:", error);
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.textContent = originalText;
